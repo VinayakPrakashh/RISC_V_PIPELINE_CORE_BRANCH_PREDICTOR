@@ -11,7 +11,9 @@ module decode_cycle (
    output [4:0] rs1_addr_E,rs2_addr_E,
    output [4:0] Rs1D,Rs2D,
    input FlushE,
-   output luauE
+   output luauE,
+   input Predict_branchD,
+   output Predict_branchE
 );
 wire [2:0] ImmSrcD;
 wire [1:0] ResultSrcD;
@@ -30,6 +32,7 @@ reg [2:0] ALUControlD_r;
 reg [1:0] ResultSrcD_r;
 reg [4:0] RD_D_r;
 reg [4:0] rs1_addr_E_r,rs2_addr_E_r;
+reg Predict_branchD_r;
  
 controller c(op,funct3,funct7b5,ResultSrcD,MemWriteD,ALUSrcD,RegWriteD,JumpD,jalrD,BranchD,ImmSrcD,ALUControlD);
 imm_extend imm( InstrD[31:7], ImmSrcD,ImmExtD);
@@ -64,6 +67,7 @@ always @(posedge clk or posedge rst) begin
         rs1_addr_E_r <= 0;
         rs2_addr_E_r <= 0;
         luau_r <= 0;
+        Predict_branchD_r <= 0;
     end
        else if( FlushE) begin
         RD1_D_r <= 0;
@@ -84,6 +88,7 @@ always @(posedge clk or posedge rst) begin
         rs1_addr_E_r <= 0;
         rs2_addr_E_r <= 0;
         luau_r <= 0;
+        Predict_branchD_r <= 0;
     end
     else begin
         RD1_D_r <= RD1_D;
@@ -104,6 +109,7 @@ always @(posedge clk or posedge rst) begin
         rs1_addr_E_r <= rs1;
         rs2_addr_E_r <= rs2;
         luau_r <= luaumux;
+        Predict_branchD_r <= Predict_branchD;
     end
 end
 assign RD1_E = RD1_D_r;
@@ -124,4 +130,5 @@ assign InstrE = InstrD_r;
 assign rs1_addr_E = rs1_addr_E_r;
 assign rs2_addr_E = rs2_addr_E_r;
 assign luauE = luau_r;
+assign Predict_branchE = Predict_branchD_r;
 endmodule

@@ -1,8 +1,14 @@
 module branch_predictor (
-    input  clk,
-    input  reset,
-    input  branch_taken,
-    output reg predict_taken
+    input clk,
+    input reset,
+    input Eval_branch,
+    input PCSrcE,
+    input [31:0] Act_Target,
+    input [31:0] instr,
+    input [31:0] PC,
+    output  predict_branch,
+    output  [31:0] Target_final
+
 );
 
     reg [1:0] state; // 2-bit saturating counter
@@ -13,23 +19,36 @@ module branch_predictor (
     localparam WEAK_TAKEN       = 2'b10;
     localparam STRONG_TAKEN     = 2'b11;
 
-    always @(posedge clk or posedge reset) begin
+wire [31:0] imm,Target;
+reg predicted;
+    // Handle final prediction logic (correct if mismatch occurs)
+assign predict_branch = Eval_branch | (predicted & (7'b1100011 == instr[6:0] || 7'b1101111 == instr[6:0]));
+
+assign imm = (7'b1100011 == instr[6:0]) ? {{20{instr[31]}}, instr[7], instr[30:25], instr[11:8], 1'b0}: //b-type
+             (7'b1101111 == instr[6:0]) ? {{12{instr[31]}}, instr[19:12], instr[20], instr[30:21], 1'b0}: //j-type
+             32'bx;
+
+assign Target = PC + imm; //target_address
+
+mux2 targetmux(Target,Act_Target,Eval_branch,Target_final);
+
+ always @(posedge clk or posedge reset) begin
         if (reset) begin
             state <= WEAK_NOT_TAKEN;
         end else begin
             case (state)
-                STRONG_NOT_TAKEN: state <= branch_taken ? WEAK_NOT_TAKEN : STRONG_NOT_TAKEN;
-                WEAK_NOT_TAKEN:   state <= branch_taken ? WEAK_TAKEN : STRONG_NOT_TAKEN;
-                WEAK_TAKEN:       state <= branch_taken ? STRONG_TAKEN : WEAK_NOT_TAKEN;
-                STRONG_TAKEN:     state <= branch_taken ? STRONG_TAKEN : WEAK_TAKEN;
+                STRONG_NOT_TAKEN: state <= PCSrcE ? WEAK_NOT_TAKEN : STRONG_NOT_TAKEN;
+                WEAK_NOT_TAKEN:   state <= PCSrcE ? WEAK_TAKEN : STRONG_NOT_TAKEN;
+                WEAK_TAKEN:       state <= PCSrcE ? STRONG_TAKEN : WEAK_NOT_TAKEN;
+                STRONG_TAKEN:     state <= PCSrcE ? STRONG_TAKEN : WEAK_TAKEN;
             endcase
         end
     end
 
     always @(*) begin
         case (state)
-            STRONG_NOT_TAKEN, WEAK_NOT_TAKEN: predict_taken = 0;
-            WEAK_TAKEN, STRONG_TAKEN:         predict_taken = 1;
+            STRONG_NOT_TAKEN, WEAK_NOT_TAKEN: predicted = 0;
+            WEAK_TAKEN, STRONG_TAKEN:         predicted = 1;
         endcase
     end
 

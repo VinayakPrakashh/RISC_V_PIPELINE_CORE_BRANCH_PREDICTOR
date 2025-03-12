@@ -13,10 +13,12 @@ module execute_cycle (
     input [1:0] ForwardAE,ForwardBE,
     input [31:0] ResultW,
     input luauE,
-    output [31:0] AuLu_ResultM
+    output [31:0] AuLu_ResultM,
+    input Predict_branchE,
+    output Eval_branch
 );
 wire [31:0] SrcBE,SrcBE_F;
-wire Takebranch,Zero;
+wire Takebranch,Zero,Target_sel;
 wire [31:0] ALUResultE;
 wire [31:0] SrcAE,auipcadderout,AuLu_ResultE,PCTargetE_w;
 
@@ -36,8 +38,12 @@ mux2 auipcluimux(auipcadderout,ImmExtE,luauE,AuLu_ResultE);
 mux4 forwarda(RD1_E,ResultW,ALUResultM,32'b0,ForwardAE,SrcAE);
 mux4 forwardb(RD2_E,ResultW,ALUResultM,32'b0,ForwardBE,SrcBE);
 
-//jalr
-mux2 jalrmux(PCTargetE_w,ALUResultE,Jalr,PCTargetE);
+// //jalr
+// mux2 jalrmux(PCTargetE_w,ALUResultE,Jalr,PCTargetE);
+//predictor
+predict_handler ph(Predict_branchE,PCSrcE,BranchE,JumpE,Eval_branch,Target_sel);
+
+mux2 target_selmux(PCTargetE_w,PCPlus4E,Target_sel,PCTargetE);
 
 assign PCSrcE = (Takebranch & BranchE) | JumpE;
 
