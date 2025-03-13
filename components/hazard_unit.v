@@ -6,7 +6,7 @@ module hazard_unit (
     input [1:0] ResultSrcE,
     input [4:0] Rs1D,Rs2D,RdE,
     output StallF,StallD,FlushE,
-    input PCSrcE,
+    input Eval_branch,
     output FlushD
 );
 
@@ -23,7 +23,7 @@ assign lwstall = (ResultSrcE ==2'b01) & ((Rs1D == RdE) | (Rs2D == RdE));
 
 assign StallF = lwstall;
 assign StallD = lwstall;
-assign FlushE = lwstall | PCSrcE;
-assign FlushD = PCSrcE;
+assign FlushE = lwstall | Eval_branch;
+assign FlushD = Eval_branch;
 
 endmodule

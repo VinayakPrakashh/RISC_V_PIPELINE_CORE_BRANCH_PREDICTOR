@@ -15,7 +15,8 @@ module execute_cycle (
     input luauE,
     output [31:0] AuLu_ResultM,
     input Predict_branchE,
-    output Eval_branch
+    output Eval_branch,
+    output Prediction_Correct
 );
 wire [31:0] SrcBE,SrcBE_F;
 wire Takebranch,Zero,Target_sel;
@@ -41,7 +42,7 @@ mux4 forwardb(RD2_E,ResultW,ALUResultM,32'b0,ForwardBE,SrcBE);
 // //jalr
 // mux2 jalrmux(PCTargetE_w,ALUResultE,Jalr,PCTargetE);
 //predictor
-predict_handler ph(Predict_branchE,PCSrcE,BranchE,JumpE,Eval_branch,Target_sel);
+predict_handler ph(Predict_branchE,PCSrcE,BranchE,JumpE,Eval_branch,Target_sel,Prediction_Correct);
 
 mux2 target_selmux(PCTargetE_w,PCPlus4E,Target_sel,PCTargetE);
 
