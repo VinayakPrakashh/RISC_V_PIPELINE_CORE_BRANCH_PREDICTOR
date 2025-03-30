@@ -34,13 +34,14 @@ mux2 targetmux(Target,Act_Target,Eval_branch,Target_final);
 
  always @(posedge clk or posedge reset) begin
         if (reset) begin
-            state <= WEAK_NOT_TAKEN;
+            state <= STRONG_TAKEN;
         end else begin
             case (state)
                 STRONG_NOT_TAKEN: state <= PCSrcE ? WEAK_NOT_TAKEN : STRONG_NOT_TAKEN;
                 WEAK_NOT_TAKEN:   state <= PCSrcE ? WEAK_TAKEN : STRONG_NOT_TAKEN;
                 WEAK_TAKEN:       state <= PCSrcE ? STRONG_TAKEN : WEAK_NOT_TAKEN;
                 STRONG_TAKEN:     state <= PCSrcE ? STRONG_TAKEN : WEAK_TAKEN;
+                default:          state <= state; // Default case to handle unexpected states
             endcase
         end
     end
