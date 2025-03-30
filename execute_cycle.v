@@ -46,7 +46,7 @@ predict_handler ph(Predict_branchE,PCSrcE,BranchE,JumpE,Eval_branch,Target_sel,P
 
 mux2 target_selmux(PCTargetE_w,PCPlus4E,Target_sel,PCTargetE);
 
-assign PCSrcE = (Takebranch & BranchE) | JumpE;
+assign PCSrcE = ((Takebranch & BranchE) | JumpE);
 
 always @(posedge clk or posedge rst) begin
     if(rst==1'b1) begin

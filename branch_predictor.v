@@ -7,7 +7,8 @@ module branch_predictor (
     input [31:0] instr,
     input [31:0] PC,
     output  predict_branch,
-    output  [31:0] Target_final
+    output  [31:0] Target_final,
+    input StateUpdateEnable
 
 );
 
@@ -35,7 +36,7 @@ mux2 targetmux(Target,Act_Target,Eval_branch,Target_final);
  always @(posedge clk or posedge reset) begin
         if (reset) begin
             state <= STRONG_TAKEN;
-        end else begin
+        end else if(StateUpdateEnable) begin
             case (state)
                 STRONG_NOT_TAKEN: state <= PCSrcE ? WEAK_NOT_TAKEN : STRONG_NOT_TAKEN;
                 WEAK_NOT_TAKEN:   state <= PCSrcE ? WEAK_TAKEN : STRONG_NOT_TAKEN;
