@@ -16,7 +16,8 @@ module execute_cycle (
     output [31:0] AuLu_ResultM,
     input Predict_branchE,
     output Eval_branch,
-    output Prediction_Correct
+    output Prediction_Correct,
+    output StateUpdateEnable
 );
 wire [31:0] SrcBE,SrcBE_F;
 wire Takebranch,Zero,Target_sel;
@@ -45,7 +46,7 @@ mux4 forwardb(RD2_E,ResultW,ALUResultM,32'b0,ForwardBE,SrcBE);
 predict_handler ph(Predict_branchE,PCSrcE,BranchE,JumpE,Eval_branch,Target_sel,Prediction_Correct);
 
 mux2 target_selmux(PCTargetE_w,PCPlus4E,Target_sel,PCTargetE);
-
+assign StateUpdateEnable = BranchE | JumpE;
 assign PCSrcE = ((Takebranch & BranchE) | JumpE);
 
 always @(posedge clk or posedge rst) begin
