@@ -36,8 +36,6 @@ reg Predict_branchD_r;
  
 controller c(op,funct3,funct7b5,ResultSrcD,MemWriteD,ALUSrcD,RegWriteD,JumpD,jalrD,BranchD,ImmSrcD,ALUControlD);
 imm_extend imm( InstrD[31:7], ImmSrcD,ImmExtD);
-adder pcadder3(PCD,ImmExtD,PC_jmp);
-mux2 jmp_brmux(PCPlus4D,PC_jmp,BranchD,Predict_addr);
 
 assign Rs1D = InstrD[19:15];
 assign Rs2D = InstrD[24:20];
