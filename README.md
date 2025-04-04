@@ -14,7 +14,7 @@ An optimized **RISC-V RV32I** Pipeline CPU featuring **branch prediction**, buil
 - [🛠️ Features](#️-features)
 - [🧠 Instruction Set Architecture (ISA)](#-instruction-set-architecture-isa)
 - [📂 Project Structure](#-project-structure)
-- [⚡ Getting Started](#-getting-started)
+- [⚡ Simulation Results](#-Simulation-Results)
 - [🚀 Simulation & Testing](#-simulation--testing)
 - [📌 Roadmap](#-roadmap)
 - [👨‍💻 Contributing](#-contributing)
@@ -87,3 +87,63 @@ The CPU supports **all major RV32I instruction formats**:
         ├── memory_cycle.v
         ├── riscv_top.v
         └── writeback_cycle.v
+## Simulation Results
+
+## 🧪 Simulation and Results
+
+This project was simulated using **Vivado 2023.1**. We verified both the functional correctness and performance improvement brought by the 2-bit branch predictor.
+
+---
+
+### 📌 Sample Assembly Code
+
+The following RISC-V assembly loop was used to test the branch predictor mechanism:
+
+![Sample Assembly](docs/sample_loop_code.png)
+*Figure: Input Assembly Loop for Testing*
+
+---
+
+### 🔍 Without Branch Prediction
+
+In the absence of a branch predictor, every `BEQ` instruction causes a pipeline flush due to misprediction. As a result:
+
+- The CPU stalls frequently.
+- Final output is obtained at **325 ns**.
+  
+![Waveform Without Predictor](docs/waveform_without_predictor.png)
+*Figure: Waveform without Branch Predictor*
+
+---
+
+### 🚀 With 2-bit Branch Predictor
+
+A 2-bit saturating counter with 4 states was implemented to improve branch prediction accuracy. With this, the CPU:
+
+- Avoids pipeline flushing for predicted branches.
+- Saves **60 ns** (3 cycles × 10 ns for each of the 2 correct predictions).
+- Final output obtained at **265 ns**.
+
+![Waveform With Predictor](docs/waveform_with_predictor.png)
+*Figure: Waveform with Branch Predictor*
+
+---
+
+### 📊 Observations
+
+| Metric                       | Without Predictor | With Predictor |
+|-----------------------------|-------------------|----------------|
+| Branch Delay Penalty        | High              | Low            |
+| Pipeline Flushes            | Frequent          | Minimal        |
+| Final Execution Time        | 325 ns            | 265 ns         |
+| Clock Period                | 10 ns             | 10 ns          |
+| BEQ Instructions            | 2                 | 2              |
+| Time Saved                  | 60 ns             | ✅             |
+
+> ✅ The two-bit predictor enhances the CPU's performance by reducing the number of pipeline flushes during branch execution, thereby saving significant clock cycles.
+
+---
+
+### ✅ Conclusion
+
+The simulation confirms that incorporating a **2-bit branch predictor** in a 5-stage pipelined RISC-V CPU significantly improves performance, especially in branch-intensive programs.
