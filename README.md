@@ -87,9 +87,7 @@ The CPU supports **all major RV32I instruction formats**:
         ├── memory_cycle.v
         ├── riscv_top.v
         └── writeback_cycle.v
-## Simulation Results
-
-## 🧪 Simulation and Results
+## 🧪 Simulation Results
 
 This project was simulated using **Vivado 2023.1**. We verified both the functional correctness and performance improvement brought by the 2-bit branch predictor.
 
