@@ -60,16 +60,30 @@ The CPU supports **all major RV32I instruction formats**:
 
 ## 📂 Project Structure
 
-
     ├── docs/
     │   └── instructions.md
     └── src/
-        ├── components
+        ├── components/
+        │   ├── adder.v
+        │   ├── alu_decoder.v
+        │   ├── alu.v
+        │   ├── branching_unit.v
+        │   ├── controller.v
+        │   ├── ff.v
+        │   ├── hazard_unit.v
+        │   ├── imm.v
+        │   ├── main_decoder.v
+        │   ├── mux_2_1.v
+        │   ├── muxx_4_1.v
+        │   └── predict_handler.v
         ├── memory/
-        │   ├── and
-        │   ├── folder
-        │   └── nesting.
-        └── You can even/
-            └── use/
-                ├── markdown
-                └── bullets!s
+        │   ├── data_mem.v
+        │   ├── instruction_memory.v
+        │   └── reg_file.v
+        ├── branch_predictor.v
+        ├── decode_cycle.v
+        ├── fetch_cycle.v
+        ├── execute_cycle.v
+        ├── memory_cycle.v
+        ├── riscv_top.v
+        └── writeback_cycle.v
