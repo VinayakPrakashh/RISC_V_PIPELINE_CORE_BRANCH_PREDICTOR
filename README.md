@@ -60,8 +60,8 @@ The CPU supports **all major RV32I instruction formats**:
 
 ## 📂 Project Structure
 .
-└── Edit me to generate/
-    ├── docs/
+## └── Edit me to generate/
+ ##   ├── docs/
     │   └── instructions.md
     └── src/
         ├── components
