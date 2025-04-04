@@ -111,7 +111,7 @@ In the absence of a branch predictor, every `BEQ` instruction causes a pipeline 
 - The CPU stalls frequently.
 - Final output is obtained at **325 ns**.
   
-![Waveform Without Predictor](docs/waveform_without_predictor.png)
+![Waveform Without Predictor](docs/waveform_no_predictor.png)
 *Figure: Waveform without Branch Predictor*
 
 ---
