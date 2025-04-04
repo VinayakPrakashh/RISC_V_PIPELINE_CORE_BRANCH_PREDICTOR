@@ -4,8 +4,9 @@
 
 An optimized **RISC-V RV32I** Pipeline CPU featuring **branch prediction**, built using **Verilog** and simulated in **Vivado 2023.1**.
 
-![Architecture](https://upload.wikimedia.org/wikipedia/commons/3/3d/RISCV_Instruction_Formats.svg)  
-<sup>Example RISC-V Instruction Formats (Source: Wikipedia)</sup>  
+![pipelined_branch_predictor](https://github.com/user-attachments/assets/20e39047-01be-47e0-92ae-46db6581dc51)
+
+<sup>Final Architecture</sup>  
 
 ---
 
