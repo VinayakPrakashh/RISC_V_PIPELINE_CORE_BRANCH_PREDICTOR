@@ -2,7 +2,7 @@
 
 # 🚀 RV32I Single-Cycle CPU with Branch Prediction
 
-An optimized **RISC-V RV32I** single-cycle CPU featuring **branch prediction**, built using **Verilog** and simulated in **Vivado 2023.1**.
+An optimized **RISC-V RV32I** Pipeline CPU featuring **branch prediction**, built using **Verilog** and simulated in **Vivado 2023.1**.
 
 ![Architecture](https://upload.wikimedia.org/wikipedia/commons/3/3d/RISCV_Instruction_Formats.svg)  
 <sup>Example RISC-V Instruction Formats (Source: Wikipedia)</sup>  
