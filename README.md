@@ -59,8 +59,7 @@ The CPU supports **all major RV32I instruction formats**:
 ---
 
 ## 📂 Project Structure
-## tree
-📦 RV32I_CPU
+ RV32I_CPU
 │── 📂 src               # Verilog source files
 │   │── alu.v            # Arithmetic Logic Unit
 │   │── control.v        # Control unit
