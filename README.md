@@ -24,25 +24,23 @@ An optimized **RISC-V RV32I** Pipeline CPU featuring **branch prediction**, buil
 ---
 
 ## 📌 About the Project
-This project implements a **single-cycle RISC-V CPU** based on the **RV32I instruction set**, featuring:
+This project implements a **5-stage pipelined RISC-V CPU** based on the **RV32I instruction set**, featuring a **branch predictor** to enhance performance. The pipeline consists of the following stages:
 
-✅ A **fully functional ALU**  
-✅ Support for **load, store, arithmetic, and branch** instructions  
-✅ A **branch predictor** to improve performance  
-✅ Simulation and testing in **Vivado 2023.1**  
+1️⃣ **Instruction Fetch (IF):** Fetches the instruction from memory.  
+2️⃣ **Instruction Decode (ID):** Decodes the instruction and reads registers.  
+3️⃣ **Execute (EX):** Performs arithmetic or logic operations.  
+4️⃣ **Memory Access (MEM):** Reads from or writes to memory (if needed).  
+5️⃣ **Write Back (WB):** Writes the result back to the register file.  
 
-The goal of this project is to **design and optimize a single-cycle processor** that follows the **RISC-V RV32I standard**, enabling efficient instruction execution with a branch predictor.
+🚀 **Key Features:**  
+✅ **5-stage pipelining** for improved instruction throughput.  
+✅ **Branch prediction** to reduce stalls and improve performance.  
+✅ **Hazard handling** for data and control dependencies.  
+✅ **Optimized forwarding logic** to minimize stalls.  
+✅ **Vivado testbench & waveform simulation** for verification.  
 
----
+This CPU efficiently executes **RISC-V RV32I instructions**, making it a **high-performance single-cycle processor with enhanced pipelining and prediction mechanisms**.
 
-## 🛠️ Features
-✔ **Fully implemented RV32I ISA** with all primary instructions  
-✔ **Single-cycle execution** for all instructions  
-✔ **Branch predictor** to minimize stalls  
-✔ **Optimized data path** for high performance  
-✔ **Vivado testbench & waveform simulation**  
-
----
 
 ## 🧠 Instruction Set Architecture (ISA)
 The CPU supports **all major RV32I instruction formats**:
