@@ -57,6 +57,25 @@ The CPU supports **all major RV32I instruction formats**:
 ✔ **Full instruction list can be found [here](docs/instructions.md)**  
 
 ---
-## 📂 Project Structure
+📦 RV32I_CPU
+│── 📂 src               # Verilog source files
+│   │── alu.v            # Arithmetic Logic Unit
+│   │── control.v        # Control unit
+│   │── datapath.v       # CPU data path
+│   │── instr_mem.v      # Instruction memory
+│   │── reg_file.v       # Register file
+│   └── top.v            # Top-level CPU module
+│
+│── 📂 testbench         # Testbench for verification
+│   │── cpu_tb.v         # CPU testbench
+│   └── alu_tb.v         # ALU testbench
+│
+│── 📂 docs              # Documentation files
+│   ├── architecture.md  # Detailed architecture explanation
+│   ├── instructions.md  # Complete ISA documentation
+│   └── waveforms.md     # Testbench waveforms
+│
+│── 📂 scripts           # Simulation and synthesis scripts
+│── 📜 README.md         # This beautiful README
+└── 📜 LICENSE           # License file
 
-RV32I_CPU/ ├── src/ # Verilog source files │ ├── alu.v # Arithmetic Logic Unit │ ├── control.v # Control Unit │ ├── datapath.v # CPU Data Path │ ├── instr_mem.v # Instruction Memory │ ├── reg_file.v # Register File │ └── top.v # Top-level CPU module │ ├── testbench/ # Testbenches for simulation │ ├── cpu_tb.v # CPU Testbench │ └── alu_tb.v # ALU Testbench │ ├── docs/ # Documentation files │ ├── architecture.md # Detailed architecture explanation │ ├── instructions.md # Full ISA documentation │ └── waveforms.md # Waveform snapshots and results │ ├── scripts/ # Scripts for simulation/synthesis │ └── run_vivado.tcl # Example Vivado automation script │ ├── README.md # This beautiful README └── LICENSE # License file
