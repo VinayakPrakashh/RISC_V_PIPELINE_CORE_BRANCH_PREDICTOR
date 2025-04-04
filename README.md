@@ -72,4 +72,4 @@ The CPU supports **all major RV32I instruction formats**:
         └── You can even/
             └── use/
                 ├── markdown
-                └── bullets!
+                └── bullets!s
