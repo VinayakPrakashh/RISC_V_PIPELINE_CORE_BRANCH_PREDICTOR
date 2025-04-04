@@ -1,6 +1,4 @@
-# RISC_V_PIPELINE_CORE_BRANCH_PREDICTOR
-
-# 🚀 RV32I Single-Cycle CPU with Branch Prediction
+# 🚀 RISC_V_PIPELINE_CORE_BRANCH_PREDICTOR
 
 An optimized **RISC-V RV32I** Pipeline CPU featuring **branch prediction**, built using **Verilog** and simulated in **Vivado 2023.1**.
 
