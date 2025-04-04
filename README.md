@@ -15,11 +15,6 @@ An optimized **RISC-V RV32I** Pipeline CPU featuring **branch prediction**, buil
 - [🧠 Instruction Set Architecture (ISA)](#-instruction-set-architecture-isa)
 - [📂 Project Structure](#-project-structure)
 - [⚡ Simulation Results](#-Simulation-Results)
-- [🚀 Simulation & Testing](#-simulation--testing)
-- [📌 Roadmap](#-roadmap)
-- [👨‍💻 Contributing](#-contributing)
-- [📜 License](#-license)
-- [📞 Contact](#-contact)
 
 ---
 
