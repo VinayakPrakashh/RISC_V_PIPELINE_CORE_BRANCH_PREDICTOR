@@ -17,17 +17,22 @@ module execute_cycle (
     input Predict_branchE,
     output Eval_branch,
     output Prediction_Correct,
-    output StateUpdateEnable
+    output StateUpdateEnable,
+    output luauEM,
+    input [31:0] AuLu_Result_correct
 );
-wire [31:0] SrcBE,SrcBE_F;
+wire [31:0] SrcBE,SrcBE_F,PCTargetE_intermediate;
 wire Takebranch,Zero,Target_sel;
 wire [31:0] ALUResultE;
 wire [31:0] SrcAE,auipcadderout,AuLu_ResultE,PCTargetE_w;
+wire [31:0] jalr_result,ALUResultE_final;
+
 
 reg [31:0] ALUResultE_r,WriteDataE_r,PCPlus4E_r,InstrE_r,AuLu_ResultE_r;
 reg [4:0] RdE_r;
 reg RegWriteE_r,MemWriteE_r;
 reg [1:0] ResultSrcE_r;
+reg luauE_r;
 
 mux2 srcmux(SrcBE,ImmExtE,ALUSrcE,SrcBE_F);
 alu alu_main(SrcAE,SrcBE_F,ALUControlE,ALUResultE,Zero,InstrE[30],InstrE[12]);
@@ -37,17 +42,19 @@ adder pctarget(PCE,ImmExtE,PCTargetE_w);
 adder auipcadder(PCE,ImmExtE,auipcadderout);
 mux2 auipcluimux(auipcadderout,ImmExtE,luauE,AuLu_ResultE);
 //hazard forwarding
-mux4 forwarda(RD1_E,ResultW,ALUResultM,32'b0,ForwardAE,SrcAE);
+mux4 forwarda(RD1_E,ResultW,AuLu_Result_correct,32'b0,ForwardAE,SrcAE);
 mux4 forwardb(RD2_E,ResultW,ALUResultM,32'b0,ForwardBE,SrcBE);
 
 // //jalr
-// mux2 jalrmux(PCTargetE_w,ALUResultE,Jalr,PCTargetE);
+adder jalradder(ALUResultE,4,jalr_result);
+mux2 jalrresultmux(ALUResultE,jalr_result,Jalr,ALUResultE_final);
 //predictor
 predict_handler ph(Predict_branchE,PCSrcE,BranchE,JumpE,Eval_branch,Target_sel,Prediction_Correct);
 
-mux2 target_selmux(PCTargetE_w,PCPlus4E,Target_sel,PCTargetE);
+mux2 target_selmux(PCTargetE_w,PCPlus4E,Target_sel,PCTargetE_intermediate);
+mux2 jalrmux_final(PCTargetE_intermediate,ALUResultE,Jalr,PCTargetE);
 assign StateUpdateEnable = BranchE | JumpE;
-assign PCSrcE = ((Takebranch & BranchE) | JumpE);
+assign PCSrcE = ((Takebranch & BranchE) | JumpE) | Jalr;
 
 always @(posedge clk or posedge rst) begin
     if(rst==1'b1) begin
@@ -60,9 +67,10 @@ always @(posedge clk or posedge rst) begin
         ResultSrcE_r <= 0;
         InstrE_r <= 0;
         AuLu_ResultE_r <= 0;
+        luauE_r <= 0;
     end
     else begin
-        ALUResultE_r <= ALUResultE;
+        ALUResultE_r <= ALUResultE_final;
         WriteDataE_r <= SrcBE;
         PCPlus4E_r <= PCPlus4E;
         RdE_r <= RdE;
@@ -71,6 +79,7 @@ always @(posedge clk or posedge rst) begin
         ResultSrcE_r <= ResultSrcE;
         InstrE_r <= InstrE;
         AuLu_ResultE_r <= AuLu_ResultE;
+        luauE_r <= luauE;
     end
 end
 assign ALUResultM = ALUResultE_r;
@@ -82,5 +91,6 @@ assign MemWriteM = MemWriteE_r;
 assign ResultSrcM = ResultSrcE_r;
 assign InstrM = InstrE_r;
 assign AuLu_ResultM = AuLu_ResultE_r;
+assign luauEM = luauE_r;
 
 endmodule

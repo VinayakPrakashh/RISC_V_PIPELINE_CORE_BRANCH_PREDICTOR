@@ -8,7 +8,9 @@ module memory_cycle (
     output [31:0] ReadDataW,ALUResultW,PCPlus4W,
     output [4:0] RdW,
     input [31:0] AuLu_ResultM,
-    output [31:0] AuLu_ResultW
+    output [31:0] AuLu_ResultW,
+    output [31:0] Lui_alu_final,
+    input lui
     );
 wire [31:0] ReadDataM;
 
@@ -17,7 +19,7 @@ reg [4:0] RdW_r;
 reg RegWriteW_r;
 reg [1:0] ResultSrcW_r;
 
-
+mux2 luimux(ALUResultM,AuLu_ResultM,lui,Lui_alu_final);
 data_mem dm(clk,MemWriteM,InstrM[14:12],ALUResultM,WriteDataM,ReadDataM);
 
 always @(posedge clk or posedge rst) begin

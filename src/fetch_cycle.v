@@ -5,7 +5,8 @@ module fetch_cycle (
     input StallF,StallD,FlushD,
     output Predict_branchD,
     input Eval_branch,
-    input StateUpdateEnable
+    input StateUpdateEnable,
+    input jalr
 );
 wire [31:0] PC_F,PCF,PCPlus4F,InstrF,Target_finalF;
 wire Predict_branchF;
@@ -17,7 +18,7 @@ reset_ff PC(clk,rst,PC_F,PCF,StallD);
 instr_mem im(PCF,InstrF);
 adder pcadder(PCF,32'h4,PCPlus4F);
 //predictor
-branch_predictor bp(clk,rst,Eval_branch,PCSrcE,PCTargetE,InstrF,PCF,Predict_branchF,Target_finalF,StateUpdateEnable);
+branch_predictor bp(clk,rst,Eval_branch,PCSrcE,PCTargetE,InstrF,PCF,Predict_branchF,Target_finalF,StateUpdateEnable,jalr);
 
 always @(posedge clk or posedge rst) begin
     if(rst==1'b1 | FlushD)begin
